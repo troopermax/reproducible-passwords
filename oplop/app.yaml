@@ -1,0 +1,73 @@
+application: oplop-hrd
+version: 10
+runtime: python27
+api_version: 1
+threadsafe: true
+
+skip_files:
+- ^(.*/)?app.yaml$
+- ^(.*/)?\..+
+- ^(.*/)?.+\.sublime-.+
+- ^(.*/)?.+\.py.*
+- ^(.*/)?.+\.log$
+- ^(.*/)?.+\.ninja$
+- ^tests/.+
+- ^node_modules/.+
+
+handlers:
+# Just so there can be clean logs.
+- url: /favicon.ico
+  static_files: assets/icons/icon016.png
+  upload: assets/icons/icon016.png
+  secure: always
+
+- url: /robots.txt
+  static_files: robots.txt
+  upload: robots.txt
+
+- url: /cache.manifest
+  mime_type: text/cache-manifest
+  static_files: cache.manifest
+  upload: cache.manifest
+  secure: always
+  http_headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+- url: /
+  static_files: index.html
+  upload: index.html
+  secure: always
+  http_headers:
+    Content-Security-Policy: script-src 'self'; object-src 'self'
+    X-Frame-Options: deny
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# In case someone tries to visit the page explicitly;
+# also makes cache manifest file generation simpler.
+- url: /index.html
+  static_files: index.html
+  upload: index.html
+  secure: always
+  http_headers:
+    Content-Security-Policy: script-src 'self'; object-src 'self'
+    X-Frame-Options: deny
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+- url: /manifest.json
+  static_files: manifest.json
+  upload: manifest.json
+  secure: always
+
+- url: /assets
+  static_dir: assets
+  secure: always
+
+- url: /service-worker.js
+  static_files: service-worker.js
+  upload: service-worker.js
+  secure: always
+
+- url: /service-worker-registration.js
+  static_files: service-worker-registration.js
+  upload: service-worker-registration.js
+  secure: always
